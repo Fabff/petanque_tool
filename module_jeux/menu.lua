@@ -78,7 +78,13 @@ local bouleRouge = {}
 local bouleRouge = love.graphics.newQuad(bouleRouge.x, bouleRouge.y, bouleRouge.largeur, bouleRouge.hauteur, img_boules:getDimensions())
 
 local nb_joueurs = 1
-    
+local call_menu = false 
+function  menu.Get_call_menu()
+    return call_menu
+end  
+function  menu.Set_call_menu(pEtat)
+    call_menu = pEtat
+end   
 
 local mon_menu = {}
         mon_menu.x = 0
@@ -178,6 +184,7 @@ function menu.update(dt)
                 --lancement du high_score
                 if love.keyboard.isDown("right") and mon_menu.selection == 2 then 
                     require("module_jeux/high_score")
+                    call_menu = true
                     mon_service.getService("high_score").load()
                     mon_service.getService("gestion_ecran").setMODE("HIGH_SCORE")
                 end

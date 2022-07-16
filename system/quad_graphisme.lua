@@ -109,6 +109,38 @@ function quad_graphisme.draw_background()
     end
 end
 
+function quad_graphisme.draw_back_botton(pBretour_etat)
+
+    -- if love.getVersion() == 0 then
+    --     love.graphics.setColor(255,255,255)
+    -- else
+    --     love.graphics.setColor(1,1,1)
+    -- end
+
+    --bouton retour
+    if pBretour_etat  then 
+        love.graphics.draw(img_menu, imgMarqueLeft_on, 4*(largeur/100), 85*(hauteur/100), 0, sx, sy)
+    else
+        love.graphics.draw(img_menu, imgMarqueLeft_off, 4*(largeur/100), 85*(hauteur/100), 0, sx, sy)
+    end
+end
+
+function quad_graphisme.draw_next_botton(pBsuivant_etat)
+    -- if love.getVersion() == 0 then
+    --     love.graphics.setColor(255,255,255)
+    -- else
+    --     love.graphics.setColor(1,1,1)
+    -- end
+
+    --bouton suivant
+    if pBsuivant_etat then 
+        love.graphics.draw(img_menu, imgMarqueRight_on, 90*(largeur/100), 85*(hauteur/100), 0, sx, sy)
+    else
+        love.graphics.draw(img_menu, imgMarqueRight_off, 90*(largeur/100), 85*(hauteur/100), 0, sx, sy)
+    end
+    --end
+end
+
 function quad_graphisme.draw_botton(pBretour_etat, pBsuivant_etat)
 
     if love.getVersion() == 0 then
@@ -127,18 +159,18 @@ function quad_graphisme.draw_botton(pBretour_etat, pBsuivant_etat)
     --if mon_service.getService("gestion_ecran").getMODE() == "SCORE_JOUEURS"  or 
     --(mon_service.getService("gestion_ecran").getMODE() == "JEUX") then
 
-        if love.getVersion() == 0 then
-            love.graphics.setColor(255,255,255)
-        else
-            love.graphics.setColor(1,1,1)
-        end
+    if love.getVersion() == 0 then
+        love.graphics.setColor(255,255,255)
+    else
+        love.graphics.setColor(1,1,1)
+    end
 
-        --bouton suivant
-        if pBsuivant_etat then 
-            love.graphics.draw(img_menu, imgMarqueRight_on, 90*(largeur/100), 85*(hauteur/100), 0, sx, sy)
-        else
-            love.graphics.draw(img_menu, imgMarqueRight_off, 90*(largeur/100), 85*(hauteur/100), 0, sx, sy)
-        end
+    --bouton suivant
+    if pBsuivant_etat then 
+        love.graphics.draw(img_menu, imgMarqueRight_on, 90*(largeur/100), 85*(hauteur/100), 0, sx, sy)
+    else
+        love.graphics.draw(img_menu, imgMarqueRight_off, 90*(largeur/100), 85*(hauteur/100), 0, sx, sy)
+    end
     --end
 end
 

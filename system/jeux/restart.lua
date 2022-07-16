@@ -40,5 +40,13 @@ function restart.jeu_restart()
     mon_service.getService("gestion_ecran").setMODE("MENU")
 end
 
+function restart.high_score_menu_restart()
+
+    mon_service.getService("coordonnees_sprite").remove_coordonnes()
+    mon_service.getService("quad_player").remove_Lst_player()
+    mon_service.getService("menu").Set_call_menu(false)
+    mon_service.getService("menu").load()
+    mon_service.getService("gestion_ecran").setMODE("MENU")
+end
 mon_service.addService("restart", restart)
 return restart

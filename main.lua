@@ -22,8 +22,8 @@ local font = nil
 
 function love.load()
   love.window.setTitle("PETANQUE")
-  --love.window.setMode(1024, 600)
-  love.window.setFullscreen(true, "desktop")
+  love.window.setMode(1024, 600)
+  --love.window.setFullscreen(true, "desktop")
 
   local largeur = love.graphics.getWidth()
   font = mon_service.getService("gestion_font").small_font_load(largeur)

@@ -67,6 +67,31 @@ function controle_botton.controle_score_joueurs(pBretour_etat, pBsuivant_etat, p
     return bouton_retour_etat, bouton_suivant_etat
 end
 
+function controle_botton.controle_high_score_joueurs_menu(pBretour_etat)
+    local bouton_retour_etat = pBretour_etat
+    
+    if love.keyboard.isDown("left") then
+        if keypressed == false then 
+            --selectionner :  
+            if love.keyboard.isDown("left") and bouton_retour_etat == false then
+                bouton_retour_etat = true
+            
+     
+            -- confirmer 
+            elseif love.keyboard.isDown("left") and bouton_retour_etat == true then
+                --retour au menu
+                require("system/jeux/restart")
+                mon_service.getService("restart").high_score_menu_restart()
+            end
+           
+            keypressed = true
+        end
+    else
+        keypressed = false
+    end
+    return bouton_retour_etat
+end
+
 function controle_botton.controle_jeux(pBretour_etat, pBsuivant_etat, pFinParty)
     local bouton_retour_etat = pBretour_etat
     local bouton_suivant_etat = pBsuivant_etat
@@ -109,6 +134,28 @@ function controle_botton.controle_jeux(pBretour_etat, pBsuivant_etat, pFinParty)
         keypressed = false
     end
     return bouton_retour_etat, bouton_suivant_etat
+end
+
+function controle_botton.controle_high_score_joueurs_jeux(pBsuivant_etat)
+    local bouton_suivant_etat = pBsuivant_etat
+    --print(bouton_suivant_etat)
+    if love.keyboard.isDown("right") then
+        if keypressed == false then 
+            --selectionner :  
+            if love.keyboard.isDown("right") and bouton_suivant_etat == false then
+                bouton_suivant_etat = true
+            -- confirmer 
+            elseif love.keyboard.isDown("right") and bouton_suivant_etat == true then
+                --retour au menu
+                require("system/jeux/restart")
+                mon_service.getService("restart").jeu_restart()
+            end
+            keypressed = true
+        end
+    else
+        keypressed = false
+    end
+    return bouton_suivant_etat
 end
 mon_service.addService("controle_botton", controle_botton)
 return controle_botton

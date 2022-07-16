@@ -17,9 +17,17 @@ local keypressedRight = false
 local keypressedLeft = false
 local largeur, hauteur, sx, sy = 0, 0, 0, 0
 local name = nil
+local score = nil
+local valid = false
+function keyboard_score.get_Valid()
+    return valid
+end
+
 function keyboard_score.get_Name()
     return name
 end
+
+
 
 function keyboard_score.load()
     largeur, hauteur = mon_service.getService("quad_graphisme").get_largeur_hauteur()
@@ -33,7 +41,7 @@ function keyboard_score.load()
 end
 
 function keyboard_score.update(dt)
-    if love.keyboard.isDown("up", "down", "right", "left") then
+    if love.keyboard.isDown("up", "down", "right", "left") and valid == false then
         if keypressed == false then
            
             if love.keyboard.isDown("up") then
@@ -56,6 +64,7 @@ function keyboard_score.update(dt)
                     currentLetter = currentLetter + 1
                 else 
                     name = (choix_lettres[initials[1]]..choix_lettres[initials[2]]..choix_lettres[initials[3]])
+                    valid = true
                 end
             end
             --ou faire un caractère de retour dans la liste
@@ -77,8 +86,8 @@ function keyboard_score.update(dt)
 end
 
 function keyboard_score.draw()
-    love.graphics.setColor(255,255,255)
-    local x = 40*(largeur/100)
+    love.graphics.setColor(1,1,1)
+    local x = 65*(largeur/100)
     local y = 20*(hauteur/100)
     for n=1, #initials do
         --affichage des lettres
@@ -87,35 +96,35 @@ function keyboard_score.draw()
             --affichage des boutons
 
             --bouton up : blue
-            love.graphics.setColor(11,139,250)
+            love.graphics.setColor(0.4,0.5,0.9)
             if keypressedUP then
-                love.graphics.setColor(255,0,0)
+                love.graphics.setColor(1,0,0)
             end
-            love.graphics.draw(boutons, top_bouton, x+5*(largeur/100), y-10*(hauteur/100), 0, sx*0.5, sy*0.5)
+            love.graphics.draw(boutons, top_bouton, x+5*(largeur/100), y-8*(hauteur/100), 0, sx*0.5, sy*0.5)
 
             --bouton down : yellow
-            love.graphics.setColor(234,250,11)
+            love.graphics.setColor(0.9,0.9,0.04)
             if keypressedDown then
-                love.graphics.setColor(255,0,0)
+                love.graphics.setColor(1,0,0)
             end
-            love.graphics.draw(boutons, bottom_bouton, x+5*(largeur/100), y+12.5*(hauteur/100), 0, sx*0.5, sy*0.5)
+            love.graphics.draw(boutons, bottom_bouton, x+5*(largeur/100), y+10*(hauteur/100), 0, sx*0.5, sy*0.5)
 
             --bouton validation : green
-            love.graphics.setColor(27,148,23)
+            love.graphics.setColor(0,5,0.6,1)
             if keypressedRight then
-                love.graphics.setColor(255,0,0)
+                love.graphics.setColor(1,0,0)
             end
-            love.graphics.draw(boutons, right_bouton, 75*(largeur/100), y-2*(hauteur/100), 0, sx*0.5, sy*0.5)
+            love.graphics.draw(boutons, right_bouton, 95*(largeur/100), y-0.1*(hauteur/100), 0, sx*0.5, sy*0.5)
 
             --bouton retour : red
-            love.graphics.setColor(148,23,23)
+            love.graphics.setColor(0.58,0.09,0.09)
             if keypressedLeft then
-                love.graphics.setColor(255,0,0)
+                love.graphics.setColor(1,0,0)
             end
-            love.graphics.draw(boutons, left_bouton, 35*(largeur/100), y-2*(hauteur/100), 0, sx*0.5, sy*0.5)
+            love.graphics.draw(boutons, left_bouton, 63*(largeur/100), y-0.1*(hauteur/100), 0, sx*0.5, sy*0.5)
 
             --couleurs réinitialisées
-            love.graphics.setColor(255,255,255)
+            love.graphics.setColor(1,1,1)
 
         end
         x = x + 10*(largeur/100)

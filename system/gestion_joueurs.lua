@@ -2,7 +2,8 @@ local gestion_joueurs = {}
 local mon_service = require("system/service_locator")
 
 local lst_joueurs = {}
-local lst_final_score = {}
+--local lst_final_score = {}
+
 
 function gestion_joueurs.create_joueurs(pNumeroJoueur)
     local my_player = {}
@@ -43,9 +44,13 @@ end
 
 --récupere les scores des joueurs (en fonction du paramètre)
 function gestion_joueurs.get_Score_Joueur(pNumeroJoueur)
+    --return 56
     return lst_joueurs[pNumeroJoueur].score 
 end
-
+function gestion_joueurs.get_Name_Joueur(pNumeroJoueur)
+    --return 1
+    return lst_joueurs[pNumeroJoueur].name 
+end
 --debug
 function gestion_joueurs.print_lst_joueurs()
     for n=1, #lst_joueurs do 
