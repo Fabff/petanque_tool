@@ -233,8 +233,8 @@ function high_score.draw()
             end
             if call_menu then 
                 if high_score_fic[n].score > score_minimum and last_line == false and stop_scroll == false then 
-                    cam.y = cam.y + 0.1 
-                    if cam.y > 200*(hauteur/100) then
+                    cam.y = cam.y + 0.1
+                    if cam.y > (#high_score_fic-7)*10*(hauteur/100) then
                         last_line = true
                     end 
                 end
