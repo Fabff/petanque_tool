@@ -7,9 +7,9 @@ local sx, sy = 0, 0
 
 
 local lst_ball = nil
-local fin_party = false
+local finParty = false
 function jeux.set_FinParty()
-    fin_party = false
+    finParty = false
 end
 
 local small_font = nil
@@ -25,7 +25,7 @@ end
 
 function start_module()
     require("system/jeux/random")      
-    require("system/jeux/restart")      
+    --require("system/jeux/restart")      
     require("system/jeux/keyboard") 
 
     --affichage ecran jeu
@@ -98,7 +98,7 @@ function jeux.update(dt)
         mon_service.getService("particules").deleteParticule(dt)
         
         if (mon_service.getService("keyboard").getTir_essaie()) == 3 then
-            fin_party = true
+            finParty = true
             local score_party = mon_service.getService("score").get_score_manche_value()
             
             if changement_joueurs then 
@@ -117,14 +117,14 @@ function jeux.update(dt)
             end
             
         end
-        bouton_retour_etat, bouton_suivant_etat = mon_service.getService("controle_botton").controle_jeux(bouton_retour_etat, bouton_suivant_etat, fin_party)
+        bouton_retour_etat, bouton_suivant_etat = mon_service.getService("controle_botton").controle_jeux(bouton_retour_etat, bouton_suivant_etat, finParty)
     end
 end
 
 function jeux.draw()
     if mon_service.getService("gestion_ecran").getMODE() == "JEUX" then
         mon_service.getService("quad_graphisme").draw_background()
-        mon_service.getService("quad_graphisme").draw_botton(bouton_retour_etat, bouton_suivant_etat, fin_party)
+        mon_service.getService("quad_graphisme").draw_botton(bouton_retour_etat, bouton_suivant_etat, finParty)
         --affichage terrain_jeu
         mon_service.getService("terrain_jeux").draw_terrain(100, 100)
         --affichage particule
@@ -152,7 +152,7 @@ function jeux.draw()
         else
             love.graphics.print("READY", 10*(largeur/100), 35*(hauteur/100))
         end
-        if fin_party then 
+        if finParty then 
             love.graphics.print("SUIVANT", 82*(largeur/100), 93*(hauteur/100))
         end
         love.graphics.print("MENU", 3*(largeur/100), 93*(hauteur/100))

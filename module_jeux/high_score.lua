@@ -90,7 +90,7 @@ function high_score.load()
     largeur, hauteur = mon_service.getService("quad_graphisme").get_largeur_hauteur()
     sx, sy = mon_service.getService("quad_graphisme").get_sx_sy()
     
-    if love.filesystem.exists("high_score_fic.json") == false then
+    if love.filesystem.getInfo("high_score_fic.json") == nil then
         high_score.AjouteScore("pau", 40)
         high_score.AjouteScore("fab", 90)
         high_score.AjouteScore("dav", 30)
@@ -113,8 +113,8 @@ function high_score.load()
         require("system/score_party/coordonnes_sprite")
         mon_service.getService("coordonnees_sprite").changementCoordonneesJeu(name, 20, 10, sx*0.8, sy*0.8)
     end
-
-    if love.filesystem.exists("high_score_fic.json") == true then
+    
+    if love.filesystem.getInfo("high_score_fic.json") then
         lecture_json()
         if call_menu == false then 
             score_minimum = cherche_score()
@@ -139,7 +139,6 @@ end
 
 
 function high_score.update(dt)
-   
     if affichage_scrolling == false then
         timer = timer+1*(dt)
         if timer > 3 then 
@@ -171,9 +170,7 @@ function high_score.update(dt)
     if call_menu then
         bouton_retour_etat = mon_service.getService("controle_botton").controle_high_score_joueurs_menu(bouton_retour_etat)
     elseif call_menu == false and valid == true then 
-        print("passage")
         bouton_suivant_etat = mon_service.getService("controle_botton").controle_high_score_joueurs_jeux(bouton_suivant_etat)
-        print(bouton_suivant_etat)
     end
 end
 

@@ -2,13 +2,14 @@ local controle_botton = {}
 local mon_service = require("system/service_locator")
 
 
-local bouton_score = false
-function controle_botton.controle_score_joueurs(pBretour_etat, pBsuivant_etat, pFinParty)
+
+function controle_botton.controle_score_joueurs(pBretour_etat, pBsuivant_etat, pFinParty, pBouton_score)
     local bouton_retour_etat = pBretour_etat
     local bouton_suivant_etat = pBsuivant_etat
-
-    if pFinParty and bouton_score == false then 
-        require("module_jeux/high_score")
+    local bouton_score = pBouton_score
+    local finParty = pFinParty
+    
+    if finParty and bouton_score == false  then 
         require("system/score_party/recap_score")
         mon_service.getService("recap_score").load()
         bouton_score = true
@@ -16,7 +17,6 @@ function controle_botton.controle_score_joueurs(pBretour_etat, pBsuivant_etat, p
     
     if love.keyboard.isDown("left", "right") then
         if keypressed == false then 
-
             --selectionner :  
             if love.keyboard.isDown("left") and bouton_retour_etat == false and bouton_suivant_etat == false then
                 bouton_retour_etat = true
@@ -33,7 +33,7 @@ function controle_botton.controle_score_joueurs(pBretour_etat, pBsuivant_etat, p
                 mon_service.getService("restart").jeu_restart()
             end
             if love.keyboard.isDown("right") and bouton_retour_etat == false and bouton_suivant_etat == true and keypressed == false then 
-                if pFinParty == false then
+                if finParty == false then
                     --lancement jeux
                     --change les coordonnées du sprite
                     require("system/score_party/coordonnes_sprite")
@@ -45,8 +45,9 @@ function controle_botton.controle_score_joueurs(pBretour_etat, pBsuivant_etat, p
                     mon_service.getService("gestion_ecran").setMODE("JEUX")
                 end
                 if bouton_score == true then
+                    require("module_jeux/high_score")
                     mon_service.getService("high_score").load()
-                    mon_service.getService("gestion_ecran").setMODE("HIGH_SCORE")
+                    mon_service.getService("gestion_ecran").setMODE("HIGH_SCORE")         
                 end
             end
             
@@ -117,6 +118,7 @@ function controle_botton.controle_jeux(pBretour_etat, pBsuivant_etat, pFinParty)
             if love.keyboard.isDown("right") and bouton_retour_etat == false and bouton_suivant_etat == true and keypressed == false 
             and pFinParty then
                 --lancement jeux
+                require("system/jeux/restart")
                 mon_service.getService("restart").restart()
             end   
             -- changer
@@ -138,6 +140,7 @@ end
 
 function controle_botton.controle_high_score_joueurs_jeux(pBsuivant_etat)
     local bouton_suivant_etat = pBsuivant_etat
+
     --print(bouton_suivant_etat)
     if love.keyboard.isDown("right") then
         if keypressed == false then 

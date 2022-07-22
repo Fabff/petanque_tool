@@ -12,7 +12,9 @@ local time_finished = 0
 local time_started = 0
 local roll = false
 local missed = false
-
+function keyboard.set_roll_false()
+    roll = false
+end
 function keyboard.get_roll()
     return roll
 end

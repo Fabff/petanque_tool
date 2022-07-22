@@ -16,6 +16,10 @@ local lst_joueurs = nil
 local numero_joueur = 1
 
 local finParty = false
+function score_joueurs.set_FinParty()
+    finParty = false
+end
+local bouton_score = false
 
 function score_joueurs.set_add_numero_joueur()
     numero_joueur = numero_joueur + 1
@@ -44,7 +48,7 @@ function score_joueurs.load()
     --récupère les coordonnées de l'écran du module quad_graphisme
     largeur, hauteur = mon_service.getService("quad_graphisme").get_largeur_hauteur()
     sx, sy = mon_service.getService("quad_graphisme").get_sx_sy()
-   
+    bouton_score = false
     mon_service.getService("coordonnees_sprite").remove_coordonnes()
 
     --récupération du nb_joueurs => lst_joueurs
@@ -99,7 +103,7 @@ function score_joueurs.update(dt)
                 finParty = true
             end
             --gestion des boutons
-            bouton_retour_etat, bouton_suivant_etat = mon_service.getService("controle_botton").controle_score_joueurs(bouton_retour_etat, bouton_suivant_etat, finParty)
+            bouton_retour_etat, bouton_suivant_etat = mon_service.getService("controle_botton").controle_score_joueurs(bouton_retour_etat, bouton_suivant_etat, finParty, bouton_score)
         end
     end
 end

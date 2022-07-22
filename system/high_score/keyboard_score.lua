@@ -38,6 +38,7 @@ function keyboard_score.load()
     bottom_bouton = love.graphics.newQuad(32,0,32,32, boutons:getDimensions())
     right_bouton = love.graphics.newQuad(64,0,32,32, boutons:getDimensions())
     left_bouton = love.graphics.newQuad(96,0,32,32, boutons:getDimensions())
+    currentLetter = 1
 end
 
 function keyboard_score.update(dt)
