@@ -28,6 +28,11 @@ function love.load()
   local largeur = love.graphics.getWidth()
   font = mon_service.getService("gestion_font").small_font_load(largeur)
   mon_service.getService("menu").load()
+  mon_service.getService("gestion_ecran").getMODE("menu") 
+  
+  --require("module_jeux/high_score")
+  --mon_service.getService("high_score").load()
+  --mon_service.getService("gestion_ecran").getMODE("HIGH_SCORE") 
 end
 
 function love.update(dt)

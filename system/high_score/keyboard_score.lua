@@ -22,6 +22,10 @@ local valid = false
 function keyboard_score.get_Valid()
     return valid
 end
+function keyboard_score.set_Valid_false()
+    valid = false
+end
+
 
 function keyboard_score.get_Name()
     return name
@@ -66,6 +70,7 @@ function keyboard_score.update(dt)
                 else 
                     name = (choix_lettres[initials[1]]..choix_lettres[initials[2]]..choix_lettres[initials[3]])
                     valid = true
+                    currentLetter = 1
                 end
             end
             --ou faire un caractère de retour dans la liste
