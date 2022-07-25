@@ -1,13 +1,7 @@
 local keyboard_score = {}
 local mon_service = require("system/service_locator")
 
-local choix_lettres = 
-{
-    "A", "B", "C", "D", "E", "F", "G", "H", "I", "J",
-    "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T",
-    "U", "V", "W", "X", "Y", "Z", " ", "@", "_", "-",
-    "#"
-}
+local choix_lettres = nil
 local currentLetter = 1
 local initials = {1,1,1}
 local keypressed = false
@@ -42,10 +36,21 @@ function keyboard_score.load()
     bottom_bouton = love.graphics.newQuad(32,0,32,32, boutons:getDimensions())
     right_bouton = love.graphics.newQuad(64,0,32,32, boutons:getDimensions())
     left_bouton = love.graphics.newQuad(96,0,32,32, boutons:getDimensions())
+    choix_lettres = 
+    {
+        "A", "B", "C", "D", "E", "F", "G", "H", "I", "J",
+        "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T",
+        "U", "V", "W", "X", "Y", "Z", " ", "@", "_", "-",
+        "#"
+    }
     currentLetter = 1
+    initials = {1,1,1}
+    valid = false
+    name = nil
 end
 
 function keyboard_score.update(dt)
+    
     if love.keyboard.isDown("up", "down", "right", "left") and valid == false then
         if keypressed == false then
            

@@ -11,8 +11,8 @@ local high_score_fic = {}
 --simule un score
 local score = 0
 local name = 1
-local score_minimum = 0
-local score_maximum = 0
+local score_minimum_affichable = 0
+local score_maximum_affichable = 0
 local cam = {}
     cam.x = 0
     cam.y = 0
@@ -27,31 +27,6 @@ local timer = 0
 local implement_score = false
 local valid = false
     
-function load_module()
-    require("system/controle_botton")
-    require("system/quad_graphisme")
-    require("system/menu/quad_player")
-
-    if call_menu == false and valid == false then 
-        require("system/high_score/keyboard_score")
-        mon_service.getService("keyboard_score").load()
-    end
-    call_menu = mon_service.getService("menu").Get_call_menu()
-    high_score_fic = {}
-    cam = {}
-    cam.x = 0
-    cam.y = 0
-    score_minimum = 0
-    score_maximum = 0
-    last_line = false
-    stop_scroll = false
-    affichage_scrolling = false
-    timer = 0
-    implement_score = false
-    bouton_retour_etat = false
-    bouton_suivant_etat = false
-    valid = false
-end
 
 function high_score.AjouteScore(pNom, pScore)
     local mon_score = {}
@@ -82,6 +57,34 @@ function lecture_json()
     table.sort(high_score_fic, trie_score)
 end
 
+function load_module()
+    require("system/controle_botton")
+    require("system/quad_graphisme")
+    require("system/menu/quad_player")
+
+    valid = false
+    call_menu = mon_service.getService("menu").Get_call_menu()
+
+    if call_menu == false and valid == false then 
+        require("system/high_score/keyboard_score")
+        mon_service.getService("keyboard_score").load()
+    end
+    high_score_fic = {}
+    cam = {}
+    cam.x = 0
+    cam.y = 0
+    score_minimum_affichable = 0
+    score_maximum_affichable = 0
+    score = 0
+    name = 1
+    last_line = false
+    stop_scroll = false
+    affichage_scrolling = false
+    timer = 0
+    implement_score = false
+    bouton_retour_etat = false
+    bouton_suivant_etat = false
+end
 function high_score.load()
     print("HIGH_SCORE")
 
@@ -96,6 +99,18 @@ function high_score.load()
         high_score.AjouteScore("dav", 30)
         high_score.AjouteScore("ser", 10)
         high_score.AjouteScore("pau", 40)
+        high_score.AjouteScore("tot", 85)
+        high_score.AjouteScore("tat", 105)
+        high_score.AjouteScore("tut", 15)
+        high_score.AjouteScore("tit", 105)
+        high_score.AjouteScore("fut", 85)
+        high_score.AjouteScore("dan", 27)
+        high_score.AjouteScore("sur", 9)
+        high_score.AjouteScore("pau", 40)
+        high_score.AjouteScore("fab", 90)
+        high_score.AjouteScore("dav", 30)
+        high_score.AjouteScore("ser", 10)
+        high_score.AjouteScore("pau", 40)
         high_score.AjouteScore("tot", 95)
         high_score.AjouteScore("tat", 35)
         high_score.AjouteScore("tut", 15)
@@ -103,9 +118,15 @@ function high_score.load()
         high_score.AjouteScore("fut", 85)
         high_score.AjouteScore("dan", 27)
         high_score.AjouteScore("sur", 9)
-       
+        high_score.AjouteScore("pau", 40)
+        high_score.AjouteScore("fab", 90)
+        high_score.AjouteScore("dav", 30)
+        high_score.AjouteScore("ser", 10)
+        high_score.AjouteScore("pau", 40)
+        high_score.AjouteScore("tot", 105)
         --print(mon_json)
     end
+
     if call_menu == false then 
         require("system/gestion_joueurs")
         score = mon_service.getService("gestion_joueurs").get_Score_Joueur(1)
@@ -117,28 +138,33 @@ function high_score.load()
     if love.filesystem.getInfo("high_score_fic.json") then
         lecture_json()
         if call_menu == false then 
-            score_minimum = cherche_score()
+            score_minimum_affichable = cherche_score()
         else 
-            score_minimum = high_score_fic[#high_score_fic].score 
-            score_maximum = high_score_fic[1].score 
+            score_minimum_affichable = high_score_fic[#high_score_fic].score 
+            score_maximum_affichable = high_score_fic[1].score 
         end
+    end
+   
+    --si score du joueur < score du dernier fic et 
+    if score < high_score_fic[#high_score_fic].score and #high_score_fic >= 30 then
+        call_menu = true
     end
 end
 
-function cherche_score(dt)
+function cherche_score()
     for n=1, #high_score_fic do  
         if high_score_fic[n].score < score and n >= 2 then
             return high_score_fic[n-1].score
         elseif score > high_score_fic[1].score then 
             return high_score_fic[1].score
-        elseif score < high_score_fic[#high_score_fic].score then
+        elseif score <= high_score_fic[#high_score_fic].score then
             return high_score_fic[#high_score_fic].score
         end
     end
 end
 
-
 function high_score.update(dt)
+
     if affichage_scrolling == false then
         timer = timer+1*(dt)
         if timer > 3 then 
@@ -161,10 +187,6 @@ function high_score.update(dt)
             affichage_scrolling = false
             implement_score = true
         end
-        -- if  love.keyboard.isDown("right") and implement_score then
-        --     require("system/jeux/restart") 
-        --     mon_service.getService("restart").jeu_restart()
-        -- end
     end
 
     if call_menu then
@@ -184,7 +206,7 @@ function high_score.draw()
     else
         mon_service.getService("quad_graphisme").draw_next_botton(bouton_suivant_etat)
     end
-    local posX, posY
+    local posX, posY = 0, 0
 
     if call_menu == false then 
         posY = 40*(hauteur/100)
@@ -194,11 +216,10 @@ function high_score.draw()
         posX = 25*(largeur/100)
     end
     
-    if love.getVersion() == 0 then
-        love.graphics.setColor(6,6,6)
-    else
-        love.graphics.setColor(0.16,0.16,0.16)
-    end
+    
+    
+    love.graphics.setColor(0.16,0.16,0.16)
+    
 
     love.graphics.print("RANK", posX, posY)
     posX = 45*(largeur/100)
@@ -224,12 +245,12 @@ function high_score.draw()
             posX = 70*(largeur/100)
             love.graphics.print(high_score_fic[n].nom, posX, posY-cam.y)
 
-            
-            if implement_score and high_score_fic[n].score > score_minimum  and affichage_scrolling then 
+            if implement_score and high_score_fic[n].score > score_minimum_affichable and affichage_scrolling then 
                 cam.y = cam.y + 2
             end
+
             if call_menu then 
-                if high_score_fic[n].score > score_minimum and last_line == false and stop_scroll == false then 
+                if high_score_fic[n].score > score_minimum_affichable and last_line == false and stop_scroll == false then 
                     cam.y = cam.y + 0.1
                     if cam.y > (#high_score_fic-7)*10*(hauteur/100) then
                         last_line = true
@@ -237,7 +258,7 @@ function high_score.draw()
                 end
     
                 if last_line then
-                    if high_score_fic[n].score < score_maximum then 
+                    if (cam.y > 0 ) then 
                         cam.y = cam.y - 0.1
                     else
                         last_line = false
@@ -248,25 +269,18 @@ function high_score.draw()
             end
         end
     end 
+
     if call_menu == false then  
         mon_service.getService("keyboard_score").draw()
         mon_service.getService("quad_player").draw_player(name)
-
-        if love.getVersion() == 0 then
-            love.graphics.setColor(6,6,6)
-        else
-            love.graphics.setColor(0.16,0.16,0.16)
-        end
-
+    
+        love.graphics.setColor(0.16,0.16,0.16)
+    
         love.graphics.print(score, 45*(largeur/100), 20*(hauteur/100))
         love.graphics.print("MENU", 89*(largeur/100), 93*(hauteur/100))
     end
 
-    if love.getVersion() == 0 then
-       love.graphics.setColor(255,255,255)
-    else
-       love.graphics.setColor(1,1,1)
-    end
+    love.graphics.setColor(1,1,1)
 end
 
 
