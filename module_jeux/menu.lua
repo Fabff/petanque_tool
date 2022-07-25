@@ -5,7 +5,7 @@ local mon_service = require("system/service_locator")
 --chargement des modules
 function module_load()
     require("system/menu/quad_player")
-    require("system/score_party/coordonnes_sprite")
+    require("system/score_party/coordonnees_sprite")
     require("system/score_party/quad_score")
     require("system/quad_graphisme")
 end
@@ -142,11 +142,13 @@ function menu.update(dt)
     if mon_service.getService("gestion_ecran").getMODE() == "MENU" then
         if love.keyboard.isDown("down", "up", "right", "left") then
             if keypressed == false then 
+                --gestion bas
                 if love.keyboard.isDown("down") then
                     if mon_menu.selection < #mon_menu.choix then 
                         mon_menu.selection = mon_menu.selection + 1
                     end
                 end
+                --gestion haut
                 if love.keyboard.isDown("up") then
                     if mon_menu.selection > 1 then 
                     mon_menu.selection = mon_menu.selection - 1

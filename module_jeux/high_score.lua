@@ -110,7 +110,7 @@ function high_score.load()
         require("system/gestion_joueurs")
         score = mon_service.getService("gestion_joueurs").get_Score_Joueur(1)
         name = mon_service.getService("gestion_joueurs").get_Name_Joueur(1)
-        require("system/score_party/coordonnes_sprite")
+        require("system/score_party/coordonnees_sprite")
         mon_service.getService("coordonnees_sprite").changementCoordonneesJeu(name, 20, 10, sx*0.8, sy*0.8)
     end
     

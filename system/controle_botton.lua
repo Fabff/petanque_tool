@@ -36,7 +36,7 @@ function controle_botton.controle_score_joueurs(pBretour_etat, pBsuivant_etat, p
                 if finParty == false then
                     --lancement jeux
                     --change les coordonnées du sprite
-                    require("system/score_party/coordonnes_sprite")
+                    require("system/score_party/coordonnees_sprite")
                     local largeur, hauteur = mon_service.getService("quad_graphisme").get_largeur_hauteur()
                     local sx, sy = mon_service.getService("quad_graphisme").get_sx_sy()
                     local numero_joueur = mon_service.getService("score_joueurs").get_numero_joueur()

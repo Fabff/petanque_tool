@@ -1,7 +1,6 @@
 local score_joueurs = {}
 local mon_service = require("system/service_locator")
 
-require("system/score_party/gestion_tour_joueur")
 
 local hauteur = 0
 local largeur = 0
@@ -36,6 +35,10 @@ end
 function module_load()
     require("module_jeux/jeux")
     require("system/controle_botton")
+    require("system/score_party/gestion_tour_joueur")
+    require("system/quad_graphisme")
+    require("system/score_party/coordonnees_sprite")
+    require("system/gestion_joueurs")
 end
 
 function score_joueurs.load()
@@ -45,10 +48,14 @@ function score_joueurs.load()
     module_load()
 
     mon_service.getService("quad_graphisme").load()
+
     --récupère les coordonnées de l'écran du module quad_graphisme
     largeur, hauteur = mon_service.getService("quad_graphisme").get_largeur_hauteur()
     sx, sy = mon_service.getService("quad_graphisme").get_sx_sy()
+
     bouton_score = false
+
+    --efface les précédentes coordonnées des sprites (coordonnées menu)
     mon_service.getService("coordonnees_sprite").remove_coordonnes()
 
     --récupération du nb_joueurs => lst_joueurs
@@ -99,6 +106,7 @@ function score_joueurs.update(dt)
             if lst_joueurs[numero_joueur].nb_manche > 0 then  
                 mon_service.getService("gestion_tour_joueur").update(dt, sx, sy, numero_joueur)
             end
+            --si nb de manche du dernier joueur est à 0 => fin de partie
             if lst_joueurs[#lst_joueurs].nb_manche == 0 then 
                 finParty = true
             end
@@ -119,25 +127,18 @@ function score_joueurs.draw()
         --score
         mon_service.getService("quad_score").draw()
 
-        if love.getVersion() == 0 then
-            love.graphics.setColor(6,6,6)
-        else
-            love.graphics.setColor(0.16,0.16,0.16)
-        end
+    
+        love.graphics.setColor(0.16,0.16,0.16)
+    
         if finParty == false then 
             love.graphics.print("JOUER", 86*(largeur/100), 93*(hauteur/100))
+            love.graphics.print("MENU", 3*(largeur/100), 93*(hauteur/100))
         else
             love.graphics.print("SUIVANT", 83*(largeur/100), 93*(hauteur/100))
         end
-        if finParty == false then 
-            love.graphics.print("MENU", 3*(largeur/100), 93*(hauteur/100))
-        end
 
-        if love.getVersion() == 0 then
-            love.graphics.setColor(255,255,255)
-        else
-            love.graphics.setColor(1,1,1)
-        end
+        love.graphics.setColor(1,1,1)
+    
     end
 end
 
