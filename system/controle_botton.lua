@@ -68,7 +68,7 @@ function controle_botton.controle_score_joueurs(pBretour_etat, pBsuivant_etat, p
     return bouton_retour_etat, bouton_suivant_etat
 end
 
-function controle_botton.controle_high_score_joueurs_menu(pBretour_etat)
+function controle_botton.controle_high_score_joueurs_menu(pBretour_etat, pScore_insufisant)
     local bouton_retour_etat = pBretour_etat
     
     if love.keyboard.isDown("left") then
@@ -82,7 +82,11 @@ function controle_botton.controle_high_score_joueurs_menu(pBretour_etat)
             elseif love.keyboard.isDown("left") and bouton_retour_etat == true then
                 --retour au menu
                 require("system/jeux/restart")
-                mon_service.getService("restart").high_score_menu_restart()
+                if pScore_insufisant then 
+                    mon_service.getService("restart").jeu_restart()
+                else
+                    mon_service.getService("restart").high_score_menu_restart()
+                end
             end
            
             keypressed = true

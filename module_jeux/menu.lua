@@ -186,6 +186,7 @@ function menu.update(dt)
                 --lancement du high_score
                 if love.keyboard.isDown("right") and mon_menu.selection == 2 then 
                     require("module_jeux/high_score")
+                    print("voila")
                     call_menu = true
                     mon_service.getService("high_score").load()
                     mon_service.getService("gestion_ecran").setMODE("HIGH_SCORE")
@@ -193,6 +194,7 @@ function menu.update(dt)
                 --lancement du jeu
                 if love.keyboard.isDown("right") and mon_menu.selection == 4 then 
                     lancement = true
+                    call_menu = false
                     require("module_jeux/score_joueurs")
                     --creation des joueurs => lst_joueurs
                     require("system/gestion_joueurs")

@@ -20,6 +20,8 @@ local cam = {}
 local bouton_retour_etat = false
 local bouton_suivant_etat = false
 local call_menu = false
+local score_insufisant = false
+
 local last_line = false
 local stop_scroll = false
 local affichage_scrolling = false
@@ -84,6 +86,7 @@ function load_module()
     implement_score = false
     bouton_retour_etat = false
     bouton_suivant_etat = false
+    score_insufisant = false
 end
 function high_score.load()
     print("HIGH_SCORE")
@@ -127,7 +130,7 @@ function high_score.load()
         --print(mon_json)
     end
 
-    if call_menu == false then 
+    if call_menu == false and score_insufisant == false then 
         require("system/gestion_joueurs")
         score = mon_service.getService("gestion_joueurs").get_Score_Joueur(1)
         name = mon_service.getService("gestion_joueurs").get_Name_Joueur(1)
@@ -137,7 +140,7 @@ function high_score.load()
     
     if love.filesystem.getInfo("high_score_fic.json") then
         lecture_json()
-        if call_menu == false then 
+        if call_menu == false and score_insufisant == false then 
             score_minimum_affichable = cherche_score()
         else 
             score_minimum_affichable = high_score_fic[#high_score_fic].score 
@@ -146,8 +149,8 @@ function high_score.load()
     end
    
     --si score du joueur < score du dernier fic et 
-    if score < high_score_fic[#high_score_fic].score and #high_score_fic >= 30 then
-        call_menu = true
+    if (score < high_score_fic[#high_score_fic].score and #high_score_fic >= 30) and call_menu == false then
+        score_insufisant = true
     end
 end
 
@@ -189,8 +192,8 @@ function high_score.update(dt)
         end
     end
 
-    if call_menu then
-        bouton_retour_etat = mon_service.getService("controle_botton").controle_high_score_joueurs_menu(bouton_retour_etat)
+    if call_menu or score_insufisant then
+        bouton_retour_etat = mon_service.getService("controle_botton").controle_high_score_joueurs_menu(bouton_retour_etat, score_insufisant)
     elseif call_menu == false and valid == true then 
         bouton_suivant_etat = mon_service.getService("controle_botton").controle_high_score_joueurs_jeux(bouton_suivant_etat)
     end
@@ -201,17 +204,17 @@ end
 function high_score.draw()
     mon_service.getService("quad_graphisme").draw_background()
         --affichage bouton
-    if call_menu then
+    if call_menu or score_insufisant then
         mon_service.getService("quad_graphisme").draw_back_botton(bouton_retour_etat)
     else
         mon_service.getService("quad_graphisme").draw_next_botton(bouton_suivant_etat)
     end
     local posX, posY = 0, 0
 
-    if call_menu == false then 
+    if call_menu == false and score_insufisant == false then 
         posY = 40*(hauteur/100)
         posX = 25*(largeur/100)
-    elseif call_menu == true then 
+    elseif call_menu == true or score_insufisant == true then 
         posY = 10*(hauteur/100)
         posX = 25*(largeur/100)
     end
@@ -232,7 +235,7 @@ function high_score.draw()
         posX = 25*(largeur/100)
         
         local pos_score_y = 0
-        if call_menu then 
+        if call_menu or score_insufisant then 
             pos_score_y = 15
         else
             pos_score_y = 40
@@ -249,7 +252,7 @@ function high_score.draw()
                 cam.y = cam.y + 2
             end
 
-            if call_menu then 
+            if call_menu or score_insufisant then 
                 if high_score_fic[n].score > score_minimum_affichable and last_line == false and stop_scroll == false then 
                     cam.y = cam.y + 0.1
                     if cam.y > (#high_score_fic-7)*10*(hauteur/100) then
@@ -270,7 +273,7 @@ function high_score.draw()
         end
     end 
 
-    if call_menu == false then  
+    if call_menu == false and score_insufisant == false then  
         mon_service.getService("keyboard_score").draw()
         mon_service.getService("quad_player").draw_player(name)
     
