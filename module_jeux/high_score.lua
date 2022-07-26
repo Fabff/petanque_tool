@@ -148,7 +148,7 @@ function high_score.load()
         end
     end
    
-    --si score du joueur < score du dernier fic et 
+    --si score du joueur < score du dernier fic et que le fichier contient 30 enregistrement :
     if (score < high_score_fic[#high_score_fic].score and #high_score_fic >= 30) and call_menu == false then
         score_insufisant = true
     end
@@ -164,6 +164,15 @@ function cherche_score()
             return high_score_fic[#high_score_fic].score
         end
     end
+end
+
+function delete_last_score()
+    table.remove(high_score_fic, #high_score_fic)
+    mon_json = json.encode(high_score_fic)
+    local fichier = love.filesystem.newFile("high_score_fic.json")
+    fichier:open("w")
+    fichier:write(mon_json)
+    fichier:close()
 end
 
 function high_score.update(dt)
@@ -185,6 +194,9 @@ function high_score.update(dt)
         if mon_service.getService("keyboard_score").get_Name() ~= nil and implement_score == false then
             high_score.AjouteScore(mon_service.getService("keyboard_score").get_Name(), score)
             lecture_json()
+            if (#high_score_fic >= 30) then
+                delete_last_score()
+            end 
             cam.x = 0
             cam.y = 0
             affichage_scrolling = false
