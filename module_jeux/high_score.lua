@@ -184,7 +184,7 @@ function high_score.update(dt)
         end
     end
 
-    --lancement du clavier score
+    --lancement du clavier scor
     if call_menu == false then
         if valid == false then 
             mon_service.getService("keyboard_score").update()
