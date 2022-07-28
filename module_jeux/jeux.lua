@@ -110,7 +110,7 @@ function jeux.update(dt)
 
                 --décrémente le nb de partie restante
                 lst_joueurs[numero_joueur].nb_manche = lst_joueurs[numero_joueur].nb_manche - 1
-               
+                lst_joueurs[numero_joueur].nb_tour = lst_joueurs[numero_joueur].nb_tour + 1
                 --incrémente le numéro joueurs = joueur suivant
                 mon_service.getService("score_joueurs").set_add_numero_joueur()
                 changement_joueurs = false

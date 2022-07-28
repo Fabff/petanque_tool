@@ -10,6 +10,7 @@ function gestion_joueurs.create_joueurs(pNumeroJoueur)
         my_player.name = pNumeroJoueur
         my_player.score = 0
         my_player.nb_manche = 3
+        my_player.nb_tour = 1
     table.insert(lst_joueurs, my_player)
 end
 

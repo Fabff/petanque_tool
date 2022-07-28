@@ -133,6 +133,7 @@ function score_joueurs.draw()
         if finParty == false then 
             love.graphics.print("JOUER", 86*(largeur/100), 93*(hauteur/100))
             love.graphics.print("MENU", 3*(largeur/100), 93*(hauteur/100))
+            love.graphics.print("NOMBRE TOUR : "..lst_joueurs[#lst_joueurs].nb_tour, 35*(largeur/100), 93*(hauteur/100))
         else
             love.graphics.print("SUIVANT", 83*(largeur/100), 93*(hauteur/100))
         end
