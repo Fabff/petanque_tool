@@ -11,7 +11,7 @@ local imgBarre = {}
 imgBarre.x = 11
 imgBarre.y = 11
 imgBarre.largeur = 570
-
+imgBarre.scoreNum = nil
 local lst_barre = {}
 
 --Quad
@@ -34,6 +34,8 @@ function quad_score.createBarre(pName, pSx, pSy)
         if pName == 4 then
             my_barre.img1 = love.graphics.newQuad(imgBarre.x, imgBarre.y+208, my_barre.imgBarre_largeur, imgBarre_hauteur, img_score:getDimensions())
         end
+        my_barre.scoreNum = 0
+
         table.insert(lst_barre, my_barre)
 end
 
@@ -72,15 +74,19 @@ function quad_score.ScoreBarreAdd(pMarque, pNumJoueur)
         lst_barre[pNumJoueur].imgBarre_largeur  = lst_barre[pNumJoueur].imgBarre_largeur + (imgBarre.largeur/9)
         if pNumJoueur == 1 then 
             lst_barre[pNumJoueur].img1 = love.graphics.newQuad(imgBarre.x, imgBarre.y, lst_barre[pNumJoueur].imgBarre_largeur, imgBarre_hauteur, img_score:getDimensions())
+            lst_barre[pNumJoueur].scoreNum = lst_barre[pNumJoueur].scoreNum + 10
         end    
         if pNumJoueur == 2 then 
             lst_barre[pNumJoueur].img1 = love.graphics.newQuad(imgBarre.x, imgBarre.y+66, lst_barre[pNumJoueur].imgBarre_largeur, imgBarre_hauteur, img_score:getDimensions())
+            lst_barre[pNumJoueur].scoreNum = lst_barre[pNumJoueur].scoreNum + 10
         end
         if pNumJoueur == 3 then 
             lst_barre[pNumJoueur].img1 = love.graphics.newQuad(imgBarre.x, imgBarre.y+134, lst_barre[pNumJoueur].imgBarre_largeur, imgBarre_hauteur, img_score:getDimensions())
+            lst_barre[pNumJoueur].scoreNum = lst_barre[pNumJoueur].scoreNum + 10
         end      
         if pNumJoueur == 4 then 
             lst_barre[pNumJoueur].img1 = love.graphics.newQuad(imgBarre.x, imgBarre.y+208, lst_barre[pNumJoueur].imgBarre_largeur, imgBarre_hauteur, img_score:getDimensions())
+            lst_barre[pNumJoueur].scoreNum = lst_barre[pNumJoueur].scoreNum + 10
         end   
     end
 end
@@ -99,6 +105,7 @@ function quad_score.draw()
          for n=1, #my_coordonnes do
              local coordonnes = my_coordonnes[n]
              love.graphics.draw(img_score, lst_barre[n].img1, coordonnes.x, coordonnes.y, 0, coordonnes.sx, coordonnes.sy)
+             love.graphics.print(lst_barre[n].scoreNum, coordonnes.x+20, coordonnes.y, 0, coordonnes.sx, coordonnes.sy)
          end    
      end
 end
