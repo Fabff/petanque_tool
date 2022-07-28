@@ -43,7 +43,7 @@ function recap_score.load()
      --init_nbBarre()
      local barre_posY = 13*(hauteur/100)
      for n = 1, #lst_joueurs do 
-         local barre_x = 20*(largeur/100)
+         local barre_x = 22*(largeur/100)
          local barre_y = barre_posY 
          barre_posY = barre_posY + 20*(hauteur/100)
          mon_service.getService("coordonnees_sprite").changementCoordonnees_barre_Jeu(lst_joueurs[n].name, barre_x, barre_y, sx/2.2, sy/2.2)

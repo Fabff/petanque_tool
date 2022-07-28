@@ -105,7 +105,10 @@ function quad_score.draw()
          for n=1, #my_coordonnes do
              local coordonnes = my_coordonnes[n]
              love.graphics.draw(img_score, lst_barre[n].img1, coordonnes.x, coordonnes.y, 0, coordonnes.sx, coordonnes.sy)
-             love.graphics.print(lst_barre[n].scoreNum, coordonnes.x+20, coordonnes.y, 0, coordonnes.sx, coordonnes.sy)
+
+             love.graphics.setColor(0.16,0.16,0.16)
+             love.graphics.print(lst_barre[n].scoreNum, coordonnes.x+imgBarre.largeur, coordonnes.y, 0, coordonnes.sx*2, coordonnes.sy*2)
+             love.graphics.setColor(1,1,1)
          end    
      end
 end
